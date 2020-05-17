@@ -1,0 +1,179 @@
+/* Fonts */
+
+body {
+	background: rgb(255, 255, 255);
+}
+
+body, .tooltip, select.menuBtn {
+	font-family: "monospace", serif;
+	font-size: 18px;
+	font-weight: normal;
+	line-height: normal;
+	letter-spacing: normal;
+}
+/* Logs */
+div#logs {
+	position: absolute;
+	top: 20px;
+	left: 1020px;
+	height: 700px;
+	width: 400px;
+	overflow: hidden;
+}
+
+div#logs {
+	margin-bottom: 10px;
+}
+
+div#logs_gradient {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background-color: white;
+	background: -webkit-linear-gradient(
+		rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%
+	);
+	background: linear-gradient(
+		rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%
+	);
+	filter: alpha(
+		Opacity=0, FinishOpacity=100, Style=1, StartX=0, StartY=0, FinishX=0, FinishY=500
+	);
+}
+
+/* Dashboard */
+
+#outfitting {
+	position: relative;
+	border: 1px solid black;
+	width: 200px;
+	margin-bottom: 20px;
+	padding: 5px 10px;
+}
+
+div#outfitting:before ,div.menu:before {
+	content: attr(data-legend);
+	position: absolute;
+	top: -13px;
+	background-color: white;
+}
+
+div.outfitRow .tooltip {
+	width: 150px;
+}
+
+div.menu {
+	position: relative;
+    border: 1px solid black;
+    width: 200px;
+    margin-bottom: 20px;
+    padding: 5px 10px;
+}
+
+div.perkRow {
+	position: relative;
+}
+
+.row_key {
+	float: none;
+}
+
+div.inventoryRow {
+	position: relative;
+}
+
+
+/* Tooltip */
+
+div.tooltip {
+	display: none;
+	padding: 2px 5px;
+	border: 1px solid black;
+	position: absolute;
+	box-shadow: -1px 3px 2px #666;
+	background: white;
+	z-index: 999;
+	white-space: pre;
+}
+
+.tooltip.bottom {
+	top: 30px;
+}
+
+.tooltip.right {
+	left: 2px;
+}
+
+.tooltip.left {
+	right: 0px;
+}
+
+.tooltip.top {
+	bottom: 20px;
+}
+
+*:hover > div.tooltip {
+	display: block;
+}
+
+div.tooltip:hover {
+	display: none !important;
+}
+
+.disabled:hover > div.tooltip, .button.free:hover > div.tooltip {
+	display: none;
+}
+
+#event .button.disabled:hover > div.tooltip {
+	display: block;
+}
+
+#chat-wrapper {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+#chat-content {
+	background: white;
+	border: 1px solid black;
+	width: 320px;
+	height: 480px;
+	z-index: 100;
+}
+
+#chat-area {
+	height: 100%;
+	padding-bottom: 60px;
+}
+
+#chat-messages {
+	height: 460px;
+	margin: 0;
+	overflow-y: scroll;
+	padding: 10px 20px 10px 20px;
+	list-style: none;
+	word-wrap: break-word;
+}
+
+.username {
+	font-weight: 700;
+	overflow: hidden;
+	padding-right: 15px;
+	text-align: right;
+}
+
+#inputMessage {
+	border: 1px solid #000;
+	bottom: 0;
+	height: 60px;
+	left: 0;
+	outline: none;
+	padding-left: 10px;
+	position: absolute;
+	width: 275px;
+}

@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<meta charset="utf-16"/>
+<head>
+	<title>海之歌 Prototype</title>
+	<link rel="stylesheet" href="style/style.css">
+	<link rel="stylesheet" href="style/menu.css">
+</head>
+<body>
+	<div id="canvas"></div>
+	<div id="chat-wrapper">
+		<div id="chat-button">Chat</div>
+		<div id="chat-content" style="display: none;">
+			<div id="chat-init">
+				Input your name:
+				<input id="chat-name" type="text" />
+				<button id="chat-start-button">Start</button>
+			</div>
+			<div id="chat-area">
+				<div><span>Welcome - </span><span id="chat-user-count"></span></div>
+				<ul id="chat-messages"></ul>
+				<input id="inputMessage" placeholder="Type here..."/>
+			</div>
+		</div>
+	</div>
+	<div class="footer">
+		<span class="customSelect menuBtn">
+			<span class="customSelectOptions">
+				<ul><li>語言</li>
+					<li data-language="zh_cn">简体中文</li>
+					<li data-language="zh_tw">繁體中文</li>
+					<li data-language="ja">日本語</li>
+					<li data-language="ko">한국어</li>
+					<li data-language="en">English</li>
+				</ul>
+			</span>
+		</span>
+		<span class="hyper menuBtn">模組</span>
+		<span class="menuBtn">分享</span>
+		<span class="menuBtn">保存</span>
+		<span id="map" class="menuBtn">地圖</span>
+		<span id="inventory" class="menuBtn">物品</span>
+		<span id="character" class="menuBtn">人物</span>
+	</div>
+</body>
+</html>
