@@ -1,6 +1,6 @@
 import $ from "jquery";
 import io from "socket.io-client";
-
+import { game } from "./main";
 
 const PORT = 3000;
 
@@ -42,21 +42,56 @@ export class Chat {
         });
 
         this.socket.once("login", ({ userCount }) => {
+            
             this.setParticipantsMessage(userCount);
         });
         this.socket.on('user joined', ({ username, userCount }) => {
+            
             this.setParticipantsMessage(userCount);
             this.log(username + ' joined');
         });
 
         this.socket.on('user left', ({ username, userCount }) => {
+            
             this.setParticipantsMessage(userCount);
             this.log(username + ' left');
         });
 
-        this.socket.on("new message", ({ username, message }) => {
+        this.socket.on("new message", ({ username, message, game2 }) => {
+            
+            console.log(username, message);
+
+            if (message[0] == '@') {
+
+                for (let x=0;x<20;++x) {
+                    for (let y=0;y<15;++y) {
+                        if (!game2.map[x+','+y]) {
+                            game.map.layer[x+','+y] = game2.map[x+','+y];
+                        }
+                    }
+                }
+
+                for (let e of game2.playerMap[username]) {
+                    game.map.drawTile(e.x, e.y, ('0'+e.lv) );
+                    //e.lv
+                }
+
+
+                game.draw();
+            }
+
+
             this.addChatMessage(username, message);
         });
+
+
+        this.socket.on("new action", ({ e }) => {   
+            
+            console.log('action:', e);
+
+            game.player.doAct(e);
+        });
+
     }
 
     private join(username: string) {
@@ -94,9 +129,15 @@ export class Chat {
     private sendMessage() {
         const message = <string>this.inputMessage.val();
         this.inputMessage.val("");
-
         this.addChatMessage(this.username, message);
-
         this.socket.emit("new message", message);
+    }
+
+    sendAction(action: any) {
+        //this.inputMessage.val("");
+        //this.addChatMessage(this.username, action);        
+        //this.socket.emit("new message", "@" + action);
+        console.log('send action:', action.code);
+        this.socket.emit("new action", action.code);
     }
 }

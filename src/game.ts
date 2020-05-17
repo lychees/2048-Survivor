@@ -61,7 +61,19 @@ class Game {
     playerMap: {};
     active_user: string;    
 
-    push_action(message: string) {
+    push_action(name, message: string) {
+
+        //console.log(message + 'push');
+        message.substr(1);
+
+        if (message == '37') {
+            this.playerMap[name].x += 1;
+        } else {
+            this.playerMap[name].x -= 1;
+        }
+
+        
+
     }
 
     new_player(name: string) {
@@ -79,10 +91,6 @@ class Game {
     }
 
     reschedule() {
-        /*this.scheduler.clear();
-        for (let i=0;i<this.map.agents.length;++i) {
-            this.scheduler.add(this.map.agents[i], true);
-        }*/
     }
 };
 

@@ -19,13 +19,14 @@ let userCount = 0;
 
 let userMap = {};
 
+
+
+
 io.on("connection", socket => {
     let username;
 
 
     socket.once("add user", name => {
-
-
         while (userMap[name] == true) {
             name += '2';
         }
@@ -62,15 +63,57 @@ io.on("connection", socket => {
     socket.on("new message", message => {
         console.log(username, "sent:", message);
 
-        /*if (message[0] == '@') {
-            game.push_action(message);
-        }*/
-
-
-        socket.broadcast.emit("new message", {
+        io.emit("new message", {
             username,
             message,
-            //game,
+            game,
         });
+        /*socket.emit("new message", {
+            username,
+            message,
+            game,
+        });*/
+
+        /*socket.broadcast.emit("new message", {
+            username,
+            message,
+            game,
+        });*/
+
+        if (message[0] == '@') {
+            console.log('action');
+            game.push_action(username, message);
+        }
+        
+        
     });
+
+
+    socket.on("new action", (e) => {
+
+        console.log(username, e);
+        
+        io.emit("new action", {
+            e
+        });
+        /*socket.emit("new message", {
+            username,
+            message,
+            game,
+        });*/
+
+        /*socket.broadcast.emit("new message", {
+            username,
+            message,
+            game,
+        });*/
+
+        /*if (message[0] == '@') {
+            console.log('action');
+            //game.push_action(username, message);
+        }*/
+        
+        
+    });
+
 });

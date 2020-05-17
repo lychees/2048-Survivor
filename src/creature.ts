@@ -412,6 +412,7 @@ export class Creature {
     }
     act() {
 
+
     }
 }
 
@@ -639,6 +640,11 @@ export class Player extends Elf {
         if (!(code in keyMap)) {
             return;
         }
+
+        //alert(code);
+        game.chat.sendAction(e);
+        return;
+
         
         let new_dir = keyMap[code];
         
@@ -699,4 +705,130 @@ export class Player extends Elf {
         window.removeEventListener("keydown", this);
         game.engine.unlock();
     }    
+
+    doAct(code) {
+        //alert(code);
+        //console.log(code);
+        //console.log(e);
+        let keyMap = {};
+
+        keyMap['ArrowUp'] = 0; 
+        keyMap[33] = 1;
+        keyMap['ArrowRight'] = 2;
+        keyMap[34] = 3;
+        keyMap['ArrowDown'] = 4;
+        keyMap[35] = 5;
+        keyMap['ArrowLeft'] = 6;
+        keyMap[36] = 7;
+
+
+        //let code = e.keyCode;
+       
+        if (keyMap[code] != undefined) {
+            event.preventDefault();
+        }
+
+        if (game.characterMenu.opened == true) {
+            game.characterMenu.close();
+            return;
+        }
+        
+        if (code == ROT.KEYS.VK_I) {                        
+            // this.inventory.open();
+            game.characterMenu.toggle(game.player);
+
+            return;
+        }
+
+        if (code == ROT.KEYS.VK_R) {
+            this.run();
+            return;
+        }
+
+
+        if (code == 13 || code == 32) {
+            var key = this.x + "," + this.y;
+
+            let t = game.map.layer[key];                       
+            if (t) {
+                if (t.enter) {
+                    t.enter(this);
+                } else {
+                }
+            }
+            return;
+        }
+
+
+
+        keyMap[ROT.KEYS.VK_W] = 0;
+        keyMap[ROT.KEYS.VK_D] = 2;
+        keyMap[ROT.KEYS.VK_S] = 4;
+        keyMap[ROT.KEYS.VK_A] = 6;
+
+        if (!(code in keyMap)) {
+            return;
+        }
+        
+        let new_dir = keyMap[code];
+        
+        if (false ) {                    
+
+            let d = ROT.DIRS[8][new_dir];
+            let xx = this.x + d[0];
+            let yy = this.y + d[1];
+            let door = game.map.layer[xx+','+yy];
+            if (door && (door.ch == "門" || door.ch == "關")) {
+                door.trigger(this);
+                game.scheduler.setDuration( 2000 );
+            } else {
+                this.logs.notify("你向四處張望");
+                if (rand(5) == 0) this.sp_healing(1);            
+                game.scheduler.setDuration( 1000 );
+            }
+        } else {
+            let d = ROT.DIRS[8][new_dir];
+            let xx = this.x + d[0];
+            let yy = this.y + d[1];
+
+            
+            
+            game.scheduler.setDuration( 4000 );
+
+            if (this.run_buff.owner == this && this.sp > 0) {
+                if (this.dir == new_dir) {
+                    game.scheduler.setDuration( 1000 );
+                } else {
+                    game.scheduler.setDuration( 2000 );
+                }
+                if (rand(10) == 0) this.sp -= 1;
+            } else {                
+                if (rand(10) == 0) this.sp_healing(1);
+            }
+
+            let attacked = false;
+            for (let i=0;i<game.map.agents.length;++i) {
+                let a = game.map.agents[i];
+                if (a.x === xx && a.y === yy && a.hp > 0) {
+                    attack(this, a);
+                    attacked = true;
+                    game.player.logs.printMessage
+                    break;
+                }
+            }
+
+            if (!attacked) {
+                if (game.map.pass(xx, yy)) {
+                    game.camera.move(d[0], d[1]);
+                    this.x = xx;
+                    this.y = yy;
+                }
+            }
+        }
+
+        this.dir = new_dir;
+        window.removeEventListener("keydown", this);
+        game.engine.unlock();
+    }    
+
 }
